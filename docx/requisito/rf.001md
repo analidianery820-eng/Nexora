@@ -1,0 +1,13 @@
+# Cadastro de Ala
+
+**COMO** Gestor Logistico,   
+**QUERO** cadastrar uma nova entrega no sistema  
+**PARA** que eu possa organizar e acompanhar as ideias realizadas.   
+
+**Critérios de Aceitação:**
+
+- Deve ser possível informar o nome ou código do cliente  
+- Deve ser possível informar o endereço de entrega
+- Deve ser possivel informar o código do produto
+- O sistema deve impedir 
+- O sistema deve validar   
