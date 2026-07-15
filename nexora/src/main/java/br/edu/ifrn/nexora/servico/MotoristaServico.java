@@ -1,24 +1,37 @@
 package br.edu.ifrn.nexora.servico;
 
+import java.util.List;
 import br.edu.ifrn.nexora.modelo.Motorista;
+import br.edu.ifrn.nexora.repositorio.MotoristaRepositorio;
 
 public class MotoristaServico {
+    private final MotoristaRepositorio repositorio = new MotoristaRepositorio();
 
-
-    public void cadastrarMotorista(Motorista novoMotorista) {
-        // Critério de Aceitação: Validar campos obrigatórios
-        if (novoMotorista.getNome() == null || novoMotorista.getNome().trim().isEmpty()) {
-            throw new IllegalArgumentException("O nome do motorista é obrigatório.");
+    public void salvarNovoMotorista(Motorista motorista) {
+        if (motorista.getNome() == null || motorista.getNome().trim().isEmpty()) {
+            throw new IllegalArgumentException("Erro de Regra: O nome do motorista é obrigatório.");
         }
-        
-        if (novoMotorista.getCnh() == null || novoMotorista.getCnh().trim().isEmpty()) {
-            throw new IllegalArgumentException("O número da CNH é obrigatório.");
+        if (motorista.getCnh() == null || motorista.getCnh().trim().isEmpty()) {
+            throw new IllegalArgumentException("Erro de Regra: A CNH é obrigatória.");
         }
+        repositorio.inserir(motorista);
+    }
 
-        // Lógica para salvar (simulação)
-        System.out.println("Motorista '" + novoMotorista.getNome() + "' cadastrado com sucesso!");
+    public List<Motorista> listarMotoristas() {
+        return repositorio.selecionarTodos();
+    }
+
+    public void alterarDadosMotorista(Motorista motorista) {
+        if (motorista.getId() == null) {
+            throw new IllegalArgumentException("Erro de Regra: Não é possível atualizar sem ID.");
+        }
+        repositorio.atualizar(motorista);
+    }
+
+    public void removerMotorista(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Erro de Regra: ID inválido para exclusão.");
+        }
+        repositorio.excluir(id);
     }
 }
-
-
-
