@@ -1,62 +1,32 @@
 package br.edu.ifrn;
 
-import br.edu.ifrn.nexora.modelo.*;
-import br.edu.ifrn.nexora.servico.*;
+import br.edu.ifrn.nexora.modelo.Motorista;
+import br.edu.ifrn.nexora.servico.MotoristaServico;
+import br.edu.ifrn.nexora.servico.MotoristaServico;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== TESTANDO SISTEMA LOGÍSTICO COMPLETO - NEXORA ===");
+        MotoristaServico motoristaService = new MotoristaServico();
 
-        // Instanciando todos os Serviços
-        MotoristaServico motoristaServico = new MotoristaServico();
-        EntregaServico entregaServico = new EntregaServico();
-        VeiculoServico veiculoServico = new VeiculoServico();
-        RotaServico rotaServico = new RotaServico();
-        AcompanhamentoServico acompanhamentoServico = new AcompanhamentoServico();
+        System.out.println("\n--- [C] - INSERINDO Motoristas no MySQL (Nexora) ---");
+        Motorista mot1 = new Motorista("Emanuel", "12345678900", "AD");
+        Motorista mot2 = new Motorista("Bruno", "98765432100", "B");
 
-        // 1. REQUISITO: MOTORISTA
-        System.out.println("\n--- [Requisito] Cadastro de Motorista ---");
-        Motorista mot1 = new Motorista("Carlos Alencar", "123456789-0", "(84) 98888-1111");
-        motoristaServico.cadastrarMotorista(mot1);
+        motoristaService.salvarNovoMotorista(mot1);
+        motoristaService.salvarNovoMotorista(mot2);
+        
+        System.out.println("\n--- [R] - SELECIONANDO e exibindo os registros ---");
+        motoristaService.listarMotoristas().forEach(System.out::println);
 
-        // 2. REQUISITO: ENTREGA
-        System.out.println("\n--- [Requisito] Registro de Entrega ---");
-        Entrega ent1 = new Entrega("Supermercado Ideal", "Av. Central, 500", "COD-PROD-99");
-        entregaServico.cadastrarEntrega(ent1);
+        System.out.println("\n--- [U] - ATUALIZANDO Dados do Motorista ---");
+        mot2.setAtivo(false); 
+        motoristaService.alterarDadosMotorista(mot2); 
+        motoristaService.listarMotoristas().forEach(System.out::println);
 
-        // 3. REQUISITO: VEÍCULO
-        System.out.println("\n--- [Requisito] Cadastro de Veículo ---");
-        try {
-            Veiculo vei1 = new Veiculo("ABC-1234", "Caminhão Baú", 5000.0);
-            veiculoServico.cadastrarVeiculo(vei1);
-            Veiculo vei2 = new Veiculo("XYZ-9999", "Furgão", 0.0); // Forçando erro
-            veiculoServico.cadastrarVeiculo(vei2);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Validação de Veículo OK! Erro: " + e.getMessage());
-        }
-
-        // 4. REQUISITO: ROTA
-        System.out.println("\n--- [Requisito] Definição de Rota ---");
-        try {
-            Rota rota1 = new Rota("Natal/RN", "Mossoró/RN", 280.5);
-            rotaServico.cadastrarRota(rota1);
-            Rota rota2 = new Rota("Natal/RN", "", 150.0); // Forçando erro
-            rotaServico.cadastrarRota(rota2);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Validação de Rota OK! Erro: " + e.getMessage());
-        }
-
-        // 5. REQUISITO: ACOMPANHAMENTO
-        System.out.println("\n--- [Requisito] Acompanhamento de Entrega ---");
-        try {
-            Acompanhamento aco1 = new Acompanhamento("Em trânsito", "27/05/2026 20:30");
-            acompanhamentoServico.atualizarStatus(aco1);
-            Acompanhamento aco2 = new Acompanhamento("", "27/05/2026 20:31"); // Forçando erro
-            acompanhamentoServico.atualizarStatus(aco2);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Validação de Acompanhamento OK! Erro: " + e.getMessage());
-        }
-
-        System.out.println("\n=== FIM DE TODOS OS TESTES COM SUCESSO ===");
+        System.out.println("\n--- [D] - EXCLUINDO um motorista do MySQL ---");
+        motoristaService.removerMotorista(mot1.getId()); 
+        
+        System.out.println("\nEstado final da tabela no MySQL:");
+        motoristaService.listarMotoristas().forEach(System.out::println);
     }
 }
