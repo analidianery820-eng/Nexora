@@ -1,44 +1,72 @@
 package br.edu.ifrn.nexora.modelo;
 
-public class Motorista { 
-   
+/**
+ * Entidade que representa um Motorista no sistema Nexora.
+ */
+public class Motorista {
+
+    private Long id; 
     private String nome;
     private String cnh;
-    private String contato;
+    private String tipoCnh;
+    private boolean ativo;
 
-    // Construtor padrão (opcional, mas bom para o Main)
+    // Construtor padrão
     public Motorista() {}
 
-    public Motorista(String nome, String cnh, String contato) {
+    // Construtor completo para novos cadastros
+    public Motorista(String nome, String cnh, String tipoCnh) {
         this.nome = nome;
         this.cnh = cnh;
-        this.contato = contato;
+        this.tipoCnh = tipoCnh;
+        this.ativo = true; 
     }
 
-    // Getters e Setters
-    public String getNome() {
-        return nome;
+    // --- GETTERS E SETTERS (Essenciais para o repositório funcionar) ---
+
+    public Long getId() { 
+        return id; 
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setId(Long id) { 
+        this.id = id; 
     }
 
-    public String getCnh() {
-        return cnh;
+    public String getNome() { 
+        return nome; 
     }
 
-    public void setCnh(String cnh) {
-        this.cnh = cnh;
+    public void setNome(String nome) { 
+        this.nome = nome; 
     }
 
-    public String getContato() {
-        return contato;
+    public String getCnh() { 
+        return cnh; 
     }
 
-    public void setContato(String contato) {
-        this.contato = contato;
+    public void setCnh(String cnh) { 
+        this.cnh = cnh; 
+    }
+
+    public String getTipoCnh() { 
+        return tipoCnh; 
+    }
+
+    public void setTipoCnh(String tipoCnh) { 
+        this.tipoCnh = tipoCnh; 
+    }
+
+    public boolean isAtivo() { 
+        return ativo; 
+    }
+
+    public void setAtivo(boolean ativo) { 
+        this.ativo = ativo; 
+    }
+
+    @Override
+    public String toString() {
+        return "Motorista{id=" + id + ", nome='" + nome + "', CNH='" + cnh + 
+               "', tipo='" + tipoCnh + "', ativo=" + ativo + "}";
     }
 }
-
-
